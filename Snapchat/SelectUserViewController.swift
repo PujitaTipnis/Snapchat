@@ -7,10 +7,19 @@
 //
 
 import UIKit
+import FirebaseDatabase
+import FirebaseAuth
 
 class SelectUserViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
+    
+    var users : [User] = []
+    
+    var imageURL = ""
+    var desc = ""
+    //var fromEmail = ""
+    var uuid = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,14 +27,41 @@ class SelectUserViewController: UIViewController, UITableViewDataSource, UITable
         // Do any additional setup after loading the view.
         tableView.dataSource = self
         tableView.delegate = self
+        
+        FIRDatabase.database().reference().child("users").observe(FIRDataEventType.childAdded, with: {(snapshot) in
+            print(snapshot)
+            
+            let user = User()
+            user.email = (snapshot.value! as AnyObject)["email"] as! String
+            user.uid = snapshot.key
+            
+            self.users.append(user)
+            
+            self.tableView.reloadData()
+        })
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        <#code#>
+        return users.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        <#code#>
+        let cell = UITableViewCell()
+        let user = users[indexPath.row]
+        
+        cell.textLabel?.text = user.email
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let user = users[indexPath.row]
+        
+        let snap = ["from":FIRAuth.auth()!.currentUser!.email!, "description":desc, "imageURL":imageURL, "uuid":uuid]
+        
+        FIRDatabase.database().reference().child("users").child(user.uid).child("snaps").childByAutoId().setValue(snap)
+        
+        navigationController!.popToRootViewController(animated: true)
     }
 
 }

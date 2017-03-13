@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -80,7 +81,7 @@
         <!--Snaps-->
         <scene sceneID="O4B-gT-Tid">
             <objects>
-                <viewController id="hIC-Yy-gYY" customClass="SnapsViewController" customModule="Snapchat" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="hIC-Yy-gYY" customClass="SnapsViewController" customModule="Snapchat" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="G2Y-Yk-86B"/>
                         <viewControllerLayoutGuide type="bottom" id="yHN-MM-GPM"/>
@@ -88,7 +89,19 @@
                     <view key="view" contentMode="scaleToFill" id="55Z-zU-VGU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="a65-ck-V4W">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="yHN-MM-GPM" firstAttribute="top" secondItem="a65-ck-V4W" secondAttribute="bottom" id="2Af-cI-smZ"/>
+                            <constraint firstItem="a65-ck-V4W" firstAttribute="leading" secondItem="55Z-zU-VGU" secondAttribute="leading" id="Fao-fF-o2b"/>
+                            <constraint firstItem="a65-ck-V4W" firstAttribute="top" secondItem="G2Y-Yk-86B" secondAttribute="bottom" id="adJ-y2-9tr"/>
+                            <constraint firstAttribute="trailing" secondItem="a65-ck-V4W" secondAttribute="trailing" id="nF5-Bp-M7e"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Snaps" id="6lf-V7-DHP">
                         <barButtonItem key="leftBarButtonItem" title="Logout" id="mNQ-g5-gTA">
@@ -104,11 +117,55 @@
                     </navigationItem>
                     <connections>
                         <outlet property="logoutButton" destination="mNQ-g5-gTA" id="fwc-WS-ejA"/>
+                        <outlet property="tableView" destination="a65-ck-V4W" id="3wf-Qu-X0i"/>
+                        <segue destination="go6-ia-s1Q" kind="show" identifier="viewSnapSegue" id="zFN-Ua-Pq7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xPv-hh-y0k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2032.8" y="38.23088455772114"/>
+        </scene>
+        <!--View Snap View Controller-->
+        <scene sceneID="F03-wV-LnL">
+            <objects>
+                <viewController id="go6-ia-s1Q" customClass="ViewSnapViewController" customModule="Snapchat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6km-K3-0Rd"/>
+                        <viewControllerLayoutGuide type="bottom" id="6Sd-KA-uJV"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vts-NS-NBh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is me saying hello" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B2W-T6-pK6">
+                                <rect key="frame" x="21" y="636" width="333" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="h5C-6l-pHD">
+                                <rect key="frame" x="26" y="74" width="323" height="552"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="B2W-T6-pK6" secondAttribute="trailing" constant="5" id="DNz-XR-n9y"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="h5C-6l-pHD" secondAttribute="trailing" constant="10" id="KQS-kA-Mxe"/>
+                            <constraint firstItem="B2W-T6-pK6" firstAttribute="top" secondItem="h5C-6l-pHD" secondAttribute="bottom" constant="10" id="Qt0-f2-vCv"/>
+                            <constraint firstItem="h5C-6l-pHD" firstAttribute="leading" secondItem="vts-NS-NBh" secondAttribute="leadingMargin" constant="10" id="U6T-zl-gZn"/>
+                            <constraint firstItem="h5C-6l-pHD" firstAttribute="top" secondItem="6km-K3-0Rd" secondAttribute="bottom" constant="10" id="aCA-SJ-sKg"/>
+                            <constraint firstItem="6Sd-KA-uJV" firstAttribute="top" secondItem="B2W-T6-pK6" secondAttribute="bottom" constant="10" id="d5V-Do-Ef7"/>
+                            <constraint firstItem="B2W-T6-pK6" firstAttribute="leading" secondItem="vts-NS-NBh" secondAttribute="leadingMargin" constant="5" id="iUp-go-6L4"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="h5C-6l-pHD" id="Tyg-0K-lfN"/>
+                        <outlet property="label" destination="B2W-T6-pK6" id="wCi-kx-nzv"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="s2L-1F-ndg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2033" y="767"/>
         </scene>
         <!--Picture View Controller-->
         <scene sceneID="p7i-Pd-yWC">

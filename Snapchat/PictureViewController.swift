@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import FirebaseStorage
+import FirebaseAuth
 
 class PictureViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
@@ -17,6 +18,7 @@ class PictureViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var nextButton: UIButton!
     
     var imagePicker = UIImagePickerController()
+    var uuid = NSUUID().uuidString
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,19 +59,23 @@ class PictureViewController: UIViewController, UIImagePickerControllerDelegate, 
         let imagesFolder = FIRStorage.storage().reference().child("images")
         let imageData = UIImageJPEGRepresentation(imageView.image!, 0.1)!
         
-        imagesFolder.child("\(NSUUID().uuidString).jpg").put(imageData, metadata: nil, completion: {(metadata, error) in
+        imagesFolder.child("\(uuid).jpg").put(imageData, metadata: nil, completion: {(metadata, error) in
             print("We tried to upload")
             if error != nil {
                 print("We have an error: \(error)")
             } else {
                 //print(metadata?.downloadURL())
-                self.performSegue(withIdentifier: "selectUserSegue", sender: nil)
+                self.performSegue(withIdentifier: "selectUserSegue", sender: metadata?.downloadURL()!.absoluteString)
             }
         })
         
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+        let nextVC = segue.destination as! SelectUserViewController
+        nextVC.imageURL = sender as! String
+        nextVC.desc = descriptionTextField.text!
+        nextVC.uuid = uuid
+        //nextVC.fromEmail = FIRAuth.auth()!.currentUser!.email!
     }
 }
